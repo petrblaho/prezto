@@ -11,3 +11,38 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+
+# emacs alias
+alias em='emacsclient -t'
+
+# TMUX
+# if which tmux >/dev/null 2>&1; then
+#   #if not inside a tmux session, and if no session is started, start a new session
+#   test -z "$TMUX" && (tmux attach -t default || tmux new-session -s default)
+# fi
+
+# https://github.com/russell/dotfiles/blob/master/zshrc
+# Openstack RC Files
+osrc() {
+  source ~/.os/$1
+  pyenv shell 3.4.3
+}
+compdef "_path_files -f -W ~/.os/" osrc
+function osrcclean {
+if [ -n "$(env | awk -F '=' '/OS_/ { print $1 }')" ]; then
+  unset $(env | awk -F '=' '/OS_/ { print $1 }')
+fi
+default_prompt
+}
+
+export MC_SKIN=/home/pblaho/.mc/lib/mc-solarized-skin/solarized.ini
+
+# added by travis gem
+[ -f /home/pblaho/.travis/travis.sh ] && source /home/pblaho/.travis/travis.sh
+
+
+PATH="/home/pblaho/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/pblaho/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/pblaho/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/pblaho/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/pblaho/perl5"; export PERL_MM_OPT;
